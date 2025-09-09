@@ -10,16 +10,27 @@ echo "
                                                       
 Where building on Ethereum begins
                                      
+https://github.com/stevedylandev/genesis
 
 "
 
 # Install foundryup
 printf "Installing Foundry..."
 curl -fsS https://foundry.paradigm.xyz | bash > /dev/null 2>&1
-printf "\r✔️ Foundry installed    \n"
 
 # Install foundry
 foundryup > /dev/null 2>&1
+
+printf "\r✔️ Foundry installed    \n"
+
+# Install foundryup
+printf "Installing Helios..."
+curl -fsS https://raw.githubusercontent.com/a16z/helios/master/heliosup/install | bash > /dev/null 2>&1
+
+# Install foundry
+heliosup > /dev/null 2>&1
+
+printf "\r✔️ Helios installed    \n"
 
 # Install Hardhat
 printf "Installing Hardhat..."
