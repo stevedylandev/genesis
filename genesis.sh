@@ -72,6 +72,24 @@ else
     printf "\r✔️ HardHat installed    \n"
 fi
 
+# Install Solc
+echo "❯ Do you want to install Solc? (Y/n)"
+read -n 1 install_solc
+echo
+
+if [[ $install_solc =~ ^[Nn]$ ]]; then
+    echo "Skipping Solc installation..."
+else
+    printf "Installing Solc..."
+    if command -v npm >/dev/null 2>&1; then
+        npm install --global solc > /dev/null 2>&1
+    else
+        printf "\rNpm not found\n"
+        exit 1
+    fi
+    printf "\r✔️ Solc installed    \n"
+fi
+
 
 # Ask user if they want to create a wallet
 echo "❯ Do you want to create a new wallet? (Y/n)"
