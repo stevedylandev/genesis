@@ -14,43 +14,77 @@ https://github.com/stevedylandev/genesis
 
 "
 
-# Install foundryup
-printf "Installing Foundry..."
-curl -fsS https://foundry.paradigm.xyz | bash > /dev/null 2>&1
+# Install Foundry
+echo "❯ Do you want to install Foundry? (Y/n)"
+read -n 1 install_foundry
+echo
 
-# Install foundry
-foundryup > /dev/null 2>&1
+if [[ $install_foundry =~ ^[Nn]$ ]]; then
+    echo "Skipping Foundry installation..."
+else
+    # Install foundryup
+    printf "Installing Foundry..."
+    curl -fsS https://foundry.paradigm.xyz | bash > /dev/null 2>&1
 
-printf "\r✔️ Foundry installed    \n"
+    # Install foundry
+    foundryup > /dev/null 2>&1
 
-# Install foundryup
-printf "Installing Helios..."
-curl -fsS https://raw.githubusercontent.com/a16z/helios/master/heliosup/install | bash > /dev/null 2>&1
+    printf "\r✔️ Foundry installed    \n"
+fi
 
-# Install foundry
-heliosup > /dev/null 2>&1
+# Install Helios
+echo "❯ Do you want to install Helios? (Y/n)"
+read -n 1 install_helios
+echo
 
-printf "\r✔️ Helios installed    \n"
+if [[ $install_helios =~ ^[Nn]$ ]]; then
+    echo "Skipping Helios installation..."
+else
+    # Install heliosup
+    printf "Installing Helios..."
+    curl -fsS https://raw.githubusercontent.com/a16z/helios/master/heliosup/install | bash > /dev/null 2>&1
+
+    # Install helios
+    heliosup > /dev/null 2>&1
+
+    printf "\r✔️ Helios installed    \n"
+fi
 
 # Install Hardhat
-printf "Installing Hardhat..."
-if command -v pnpm >/dev/null 2>&1; then
-    pnpm install -g hardhat > /dev/null 2>&1
-elif command -v npm >/dev/null 2>&1; then
-    npm install -g hardhat > /dev/null 2>&1
-elif command -v bun >/dev/null 2>&1; then
-    bun install -g hardhat > /dev/null 2>&1
+echo "❯ Do you want to install Hardhat? (Y/n)"
+read -n 1 install_hardhat
+echo
+
+if [[ $install_hardhat =~ ^[Nn]$ ]]; then
+    echo "Skipping Hardhat installation..."
 else
-    printf "\rNo package manager found (pnpm, npm, or bun)\n"
-    exit 1
+    printf "Installing Hardhat..."
+    if command -v pnpm >/dev/null 2>&1; then
+        pnpm install -g hardhat > /dev/null 2>&1
+    elif command -v npm >/dev/null 2>&1; then
+        npm install -g hardhat > /dev/null 2>&1
+    elif command -v bun >/dev/null 2>&1; then
+        bun install -g hardhat > /dev/null 2>&1
+    else
+        printf "\rNo package manager found (pnpm, npm, or bun)\n"
+        exit 1
+    fi
+    printf "\r✔️ HardHat installed    \n"
 fi
-printf "\r✔️ HardHat installed    \n"
 
 
-# Create wallet
-echo "❯ What do you want to name your wallet?"
-read wallet_name
-cast wallet new --password ~/.foundry/keystores $wallet_name
+# Ask user if they want to create a wallet
+echo "❯ Do you want to create a new wallet? (Y/n)"
+read -n 1 create_wallet
+echo
+
+if [[ $create_wallet =~ ^[Nn]$ ]]; then
+    echo "Skipping wallet creation..."
+else
+    echo "❯ What do you want to name your wallet?"
+    read wallet_name
+    cast wallet new --password ~/.foundry/keystores $wallet_name
+fi
 
 echo "
 ✔️ Installation complete!
